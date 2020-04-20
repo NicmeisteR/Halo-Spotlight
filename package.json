@@ -1,0 +1,26 @@
+{
+  "name": "halo-spotlight",
+  "version": "1.0.0",
+  "description": "This is just a super simple #Twitter bot that likes and retweets the content from the Halo community.",
+  "main": "src/bot.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "find-config": "^1.0.0",
+    "node-essentials": "^1.2.7",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NicmeisteR/Halo-Spotlight.git"
+  },
+  "author": "Nicolaas Nel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NicmeisteR/Halo-Spotlight/issues"
+  },
+  "homepage": "https://github.com/NicmeisteR/Halo-Spotlight#readme"
+}

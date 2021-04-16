@@ -1,6 +1,9 @@
 // Gets the Required poackages
 require('dotenv').config({ path: require('find-config')('.env') });
 const TwitterPackage = require('twitter');
+const node = require('node-essentials');
+const Filter = require('bad-words'),
+filter = new Filter();
 
 // Api Keys
 const config = {
@@ -32,7 +35,7 @@ function twitter(){
 
             // let statusObj = {in_reply_to_status_id: tweet.id_str,  status: "@" + tweet.user.screen_name +"\n" + message };
             if(!tweet.hasOwnProperty('retweeted_status')){
-                if(tweet.is_quote_status === false){
+                if(eligible(tweet)){
                     Twitter.post(`statuses/retweet/${retweetId}`,  function(error, response){
                         if(response){ 
                             // console.log(response)
@@ -60,26 +63,22 @@ function twitter(){
 }
 
 function writeError(error, area){
+    console.log(error);
     errorNumber += 1;
-    node.writeToFile("./logs", `${area}_Error_${errorNumber}`, "txt", error);
+    // node.writeToFile("./logs", `${area}_Error_${errorNumber}`, "txt", error);
 }
 
 function eligible(tweet) {
-    let safeTweet = false;
+    const isQuoteTweet = tweet.is_quote_status;
+    const isNotProfane = !filter.isProfane(tweet.text);
+    const isNotPromotion = !tweet.text.includes("twitch.tv");
 
-    if(tweet.is_quote_status === false){
-
+    if(!isQuoteTweet && isNotProfane && isNotPromotion){
+        return true;
     }
-
-    if(tweet.retweeted_status.text === safe){
-
+    else {
+        return false;
     }
-
-    if(!tweet.retweeted_status.text.includes("twitch.tv")){
-        
-    }
-
-    return safeTweet;
 }
 
 twitter();

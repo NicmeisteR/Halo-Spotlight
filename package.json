@@ -4,9 +4,10 @@
   "description": "This is just a super simple #Twitter bot that likes and retweets the content from the Halo community.",
   "main": "src/bot.js",
   "dependencies": {
+    "bad-words": "^3.0.4",
     "dotenv": "^8.2.0",
     "find-config": "^1.0.0",
-    "node-essentials": "^1.2.7",
+    "node-essentials": "^1.2.8",
     "twitter": "^1.7.1"
   },
   "devDependencies": {},

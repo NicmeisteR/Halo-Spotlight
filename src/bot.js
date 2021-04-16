@@ -27,25 +27,29 @@ function twitter(){
             // console.log(tweet.text);
             var retweetId = tweet.id_str;
             // console.log(tweet);
+            console.log(tweet);
+            // writeError(tweet, "Tweet")
 
             // let statusObj = {in_reply_to_status_id: tweet.id_str,  status: "@" + tweet.user.screen_name +"\n" + message };
             if(!tweet.hasOwnProperty('retweeted_status')){
-                Twitter.post(`statuses/retweet/${retweetId}`,  function(error, response){
-                    if(response){ 
-                        // console.log(response)
-                        Twitter.post('favorites/create', {id: retweetId}, function(err, response){
-                            if(response){ 
-                                console.log("Success")
-                            }
-                            if(err){ 
-                                writeError(err, "Like")
-                            }
-                        });
-                    }
-                    if(error){ 
-                        writeError(error, "Retweet")
-                    }
-                });
+                if(tweet.is_quote_status === false){
+                    Twitter.post(`statuses/retweet/${retweetId}`,  function(error, response){
+                        if(response){ 
+                            // console.log(response)
+                            Twitter.post('favorites/create', {id: retweetId}, function(err, response){
+                                if(response){ 
+                                    console.log("Success")
+                                }
+                                if(err){ 
+                                    writeError(err, "Like")
+                                }
+                            });
+                        }
+                        if(error){ 
+                            writeError(error, "Retweet")
+                        }
+                    });
+                }
             }
         });
 
@@ -58,6 +62,24 @@ function twitter(){
 function writeError(error, area){
     errorNumber += 1;
     node.writeToFile("./logs", `${area}_Error_${errorNumber}`, "txt", error);
+}
+
+function eligible(tweet) {
+    let safeTweet = false;
+
+    if(tweet.is_quote_status === false){
+
+    }
+
+    if(tweet.retweeted_status.text === safe){
+
+    }
+
+    if(!tweet.retweeted_status.text.includes("twitch.tv")){
+        
+    }
+
+    return safeTweet;
 }
 
 twitter();

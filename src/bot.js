@@ -2,8 +2,15 @@
 require('dotenv').config({ path: require('find-config')('.env') });
 const TwitterPackage = require('twitter');
 const node = require('node-essentials');
+const fs = require('fs')
+const path = require('path');
+const parse = require('querystring').parse;
+const http = require('http');
 const Filter = require('bad-words'),
 filter = new Filter();
+const Jimp = require("jimp");
+
+const {instagram} = require('./instagram');
 
 // Api Keys
 const config = {
@@ -27,11 +34,8 @@ function twitter(){
     Twitter.stream('statuses/filter', { track: config.twitter.track }, (stream) => {
         stream.on('data', (tweet) => {
 
-            // console.log(tweet.text);
             var retweetId = tweet.id_str;
-            // console.log(tweet);
-            console.log(tweet);
-            // writeError(tweet, "Tweet")
+            // console.log(tweet);        
 
             // let statusObj = {in_reply_to_status_id: tweet.id_str,  status: "@" + tweet.user.screen_name +"\n" + message };
             if(!tweet.hasOwnProperty('retweeted_status')){
@@ -52,6 +56,7 @@ function twitter(){
                             writeError(error, "Retweet")
                         }
                     });
+                    downloadMedia(tweet);
                 }
             }
         });
@@ -72,13 +77,49 @@ function eligible(tweet) {
     const isQuoteTweet = tweet.is_quote_status;
     const isNotProfane = !filter.isProfane(tweet.text);
     const isNotPromotion = !tweet.text.includes("twitch.tv");
+    const isSensitive = tweet.possibly_sensitive;
 
-    if(!isQuoteTweet && isNotProfane && isNotPromotion){
+    if(!isQuoteTweet && isNotProfane && isNotPromotion && isSensitive){
         return true;
     }
     else {
         return false;
     }
 }
+
+function downloadMedia(tweet) {
+    const photos = tweet.entities && tweet.entities.media;
+    if (photos) {
+        if (photos[0].type === 'photo') {
+            fetch(photos[0].media_url, tweet)
+        }
+    }
+}
+
+const fetch = (url, tweet) => {
+    const ext = path.extname(url);
+    let image = path.join(__dirname, 'images', `photo${ext}`);
+    console.log(url, image);
+    const writer = fs.createWriteStream(image);
+    writer.on('end', () => {
+        callback();
+    });
+    http.get(require('url').parse(url), (res) => {
+        res.pipe(writer);
+        // if(ext === ".png"){
+        //     Jimp.read(image, (err, image) => {
+        //         if (err) {
+        //             console.log(err);
+        //         } else {
+        //             image.write(path.join(__dirname, 'images', `photo.jpg`))
+        //         }
+        //     })
+        //     image = path.join(__dirname, 'images', `photo${ext}`);
+        // }
+        if(ext === ".jpg"){
+            instagram(image, tweet);
+        }
+    });
+};
 
 twitter();

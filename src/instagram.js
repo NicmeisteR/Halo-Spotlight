@@ -24,7 +24,7 @@ async function instagram(path, tweet){
     usertags: {
       in: [
         // tag the user 'instagram' @ (0.5 | 0.5)
-        await generateUsertagFromName('NicolaasDev', 0.5, 0.5),
+        // await generateUsertagFromName('NicolaasDev', 0.5, 0.5),
         await generateUsertagFromName(tweet.user.screen_name, 0.4, 0.4),
       ],
     },

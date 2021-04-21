@@ -70,7 +70,7 @@ function twitter(){
 function writeError(error, area){
     console.log(error);
     errorNumber += 1;
-    // node.writeToFile("./logs", `${area}_Error_${errorNumber}`, "txt", error);
+    node.writeToFile("./logs", `${area}_Error_${errorNumber}`, "txt", JSON.stringify(error));
 }
 
 function eligible(tweet) {
@@ -79,7 +79,7 @@ function eligible(tweet) {
     const isNotPromotion = !tweet.text.includes("twitch.tv");
     const isSensitive = tweet.possibly_sensitive;
 
-    if(!isQuoteTweet && isNotProfane && isNotPromotion && isSensitive){
+    if(!isQuoteTweet && isNotProfane && isNotPromotion && !isSensitive){
         return true;
     }
     else {
@@ -102,7 +102,7 @@ const fetch = (url, tweet) => {
     console.log(url, image);
     const writer = fs.createWriteStream(image);
     writer.on('end', () => {
-        callback();
+        // callback();
     });
     http.get(require('url').parse(url), (res) => {
         res.pipe(writer);

@@ -21,13 +21,14 @@ async function instagram(path, tweet){
     file: await readFileAsync(path),
     caption: `Follow @Halo_Spotlight_Bot and @NicolaasDev for more Halo Content! \n\nPhoto and all credit goes to @${tweet.user.screen_name} on #Twitter at https://twitter.com/${tweet.user.screen_name} \n\nCaption: ${tweet.text}`,
     // optional
-    usertags: {
-      in: [
-        // tag the user 'instagram' @ (0.5 | 0.5)
-        // await generateUsertagFromName('NicolaasDev', 0.5, 0.5),
-        await generateUsertagFromName(tweet.user.screen_name, 0.4, 0.4),
-      ],
-    },
+    //TODO: @nicmeister add try catch for usernames if they don't exist so the app doesnt crash
+    // usertags: {
+    //   in: [
+    //     // tag the user 'instagram' @ (0.5 | 0.5)
+    //     // await generateUsertagFromName('NicolaasDev', 0.5, 0.5),
+    //     await generateUsertagFromName(tweet.user.screen_name, 0.4, 0.4),
+    //   ],
+    // },
   });
 
 //   console.log(publishResult);

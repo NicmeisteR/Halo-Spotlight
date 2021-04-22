@@ -35,7 +35,8 @@ function twitter(){
         stream.on('data', (tweet) => {
 
             var retweetId = tweet.id_str;
-            // console.log(tweet);        
+            // console.log(tweet);   
+            // writeError(tweet, "Tweet")     
 
             // let statusObj = {in_reply_to_status_id: tweet.id_str,  status: "@" + tweet.user.screen_name +"\n" + message };
             if(!tweet.hasOwnProperty('retweeted_status')){
@@ -76,7 +77,7 @@ function writeError(error, area){
 function eligible(tweet) {
     const isQuoteTweet = tweet.is_quote_status;
     const isNotProfane = !filter.isProfane(tweet.text);
-    const isNotLink = !tweet.text.includes("http");
+    const isNotLink = tweet.entities.urls.length === 0 ? true : false;
     const isSensitive = tweet.possibly_sensitive;
 
     if(!isQuoteTweet && isNotProfane && isNotLink && !isSensitive){

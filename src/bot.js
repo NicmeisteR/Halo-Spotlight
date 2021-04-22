@@ -76,10 +76,10 @@ function writeError(error, area){
 function eligible(tweet) {
     const isQuoteTweet = tweet.is_quote_status;
     const isNotProfane = !filter.isProfane(tweet.text);
-    const isNotPromotion = !tweet.text.includes("twitch.tv");
+    const isNotLink = !tweet.text.includes("http");
     const isSensitive = tweet.possibly_sensitive;
 
-    if(!isQuoteTweet && isNotProfane && isNotPromotion && !isSensitive){
+    if(!isQuoteTweet && isNotProfane && isNotLink && !isSensitive){
         return true;
     }
     else {

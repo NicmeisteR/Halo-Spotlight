@@ -19,7 +19,11 @@ async function instagram(path, tweet){
   const publishResult = await ig.publish.photo({
     // read the file into a Buffer
     file: await readFileAsync(path),
-    caption: `Follow @Halo_Spotlight_Bot and @NicolaasDev for more Halo Content! \n\nPhoto and all credit goes to @${tweet.user.screen_name} on #Twitter at https://twitter.com/${tweet.user.screen_name} \n\nCaption: ${tweet.text}`,
+    caption: `${tweet.text}
+    Photo and all credit goes to @${tweet.user.screen_name} on #Twitter at https://twitter.com/${tweet.user.screen_name}
+    -
+    -
+    #haloCE #halo2 #halo3 #halowars #halo3odst#haloreach #haloCEA #halo4 #halomcc #halo2anniversary #halo5guardians #halowars2 #halo6 #haloinfinte #masterchief #john117 #gaming`,
     // optional
     //TODO: @nicmeister add try catch for usernames if they don't exist so the app doesnt crash
     // usertags: {

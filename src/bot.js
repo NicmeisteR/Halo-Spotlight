@@ -118,7 +118,9 @@ const fetch = (url, tweet) => {
         //     image = path.join(__dirname, 'images', `photo${ext}`);
         // }
         if(ext === ".jpg"){
-            instagram(image, tweet);
+            if(tweet.user.screen_name.toLowerCase() !== "xeclipse_so"){
+                instagram(image, tweet);
+            }
         }
     });
 };

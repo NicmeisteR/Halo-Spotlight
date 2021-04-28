@@ -11,6 +11,7 @@ filter = new Filter();
 const Jimp = require("jimp");
 
 const {instagram} = require('./instagram');
+const blacklist = process.env.BLACKLIST.split(",");
 
 // Api Keys
 const config = {
@@ -118,7 +119,7 @@ const fetch = (url, tweet) => {
         //     image = path.join(__dirname, 'images', `photo${ext}`);
         // }
         if(ext === ".jpg"){
-            if(tweet.user.screen_name.toLowerCase() !== "xeclipse_so"){
+            if(!blacklist.includes(tweet.user.screen_name)){
                 instagram(image, tweet);
             }
         }

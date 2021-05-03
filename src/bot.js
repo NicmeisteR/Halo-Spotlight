@@ -4,7 +4,6 @@ const TwitterPackage = require('twitter');
 const node = require('node-essentials');
 const fs = require('fs')
 const path = require('path');
-const parse = require('querystring').parse;
 const http = require('http');
 const Filter = require('bad-words'),
 filter = new Filter();

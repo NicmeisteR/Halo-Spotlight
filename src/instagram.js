@@ -38,6 +38,32 @@ async function instagram(path, tweet){
 //   console.log(publishResult);
 }
 
+async function instagramVideo(path, tweet, cover){
+  await login();
+
+  const publishResult = await ig.publish.video({
+    // read the file into a Buffer
+    video: await readFileAsync(path.split('.')[0] + "s.mp4"),
+    coverImage: await readFileAsync(path.split('.')[0] + ".jpg"),
+    caption: `${tweet.text}
+    Photo and all credit goes to @${tweet.user.screen_name} on #Twitter at https://twitter.com/${tweet.user.screen_name}
+    -
+    -
+    #haloCE #halo2 #halo3 #halowars #halo3odst#haloreach #haloCEA #halo4 #halomcc #halo2anniversary #halo5guardians #halowars2 #halo6 #haloinfinte #masterchief #john117 #gaming`,
+    // optional
+    //TODO: @nicmeister add try catch for usernames if they don't exist so the app doesnt crash
+    // usertags: {
+    //   in: [
+    //     // tag the user 'instagram' @ (0.5 | 0.5)
+    //     // await generateUsertagFromName('NicolaasDev', 0.5, 0.5),
+    //     await generateUsertagFromName(tweet.user.screen_name, 0.4, 0.4),
+    //   ],
+    // },
+  });
+
+ console.log(publishResult);
+}
+
 /**
  * Generate a usertag
  * @param name - the instagram-username
@@ -64,4 +90,4 @@ async function generateUsertagFromName(name, x, y) {
  */
 const clamp = (value, min, max) => Math.max(Math.min(value, max), min);
 
-module.exports = { instagram }
+module.exports = { instagram, instagramVideo }
